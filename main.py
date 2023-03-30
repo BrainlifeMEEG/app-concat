@@ -33,7 +33,7 @@ raw5 = mne.io.read_raw_fif(fname5)
 
 list = [x for x in [raw1,raw2,raw3,raw4,raw5] if len(x) != 0]
 
-raw_final = mne.concatenate_raws([list])
+raw_final = mne.concatenate_raws(list)
 
 # save mne/raw
 raw_final.save(os.path.join('out_dir','concat-raw.fif'))
