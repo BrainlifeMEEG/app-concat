@@ -18,20 +18,12 @@ __location__ = os.path.realpath(
 with open(__location__+'/config.json') as config_json:
     config = json.load(config_json)
 
+raws = config['raw']
 
-fname1 = config['raw1']
-fname2 = config['raw2']
-fname3 = config['raw3']
-fname4 = config['raw4']
-fname5 = config['raw5']
+list = []
 
-raw1 = mne.io.read_raw_fif(fname1)
-raw2 = mne.io.read_raw_fif(fname2)
-raw3 = mne.io.read_raw_fif(fname3)
-raw4 = mne.io.read_raw_fif(fname4)
-raw5 = mne.io.read_raw_fif(fname5)
-
-list = [x for x in [raw1,raw2,raw3,raw4,raw5] if len(x) != 0]
+for i in range(len(raws)):
+    list.append(mne.io.read_raw_fif(raws[i], preload=True))
 
 raw_final = mne.concatenate_raws(list)
 
