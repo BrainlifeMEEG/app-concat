@@ -28,5 +28,5 @@ for i in range(len(raws)):
 raw_final = mne.concatenate_raws(list)
 
 # save mne/raw
-raw_final.save(os.path.join('out_dir','concat-raw.fif'))
+raw_final.save(os.path.join('out_dir','raw.fif'))
 
