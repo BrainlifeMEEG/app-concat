@@ -40,7 +40,7 @@ You can submit this App online at [https://doi.org/10.25663/bl.app.444](https://
 
 ```json
 {
-  "t1": "t1.nii.gz"
+  'raw':"'raw1.fif','raw2.fif','raw3.fif'"
 }
 ```
 
@@ -63,7 +63,7 @@ bl dataset download 5a0f0fad2c214c9ba8624376#5a050966eec2b300611abff2 && mv 5a0f
 
 ## Output
 
-All output file (a resampled T1w NIFTI-1 file) will be generated inside the current working directory (pwd), inside a specifc directory called:
+All output file (a concatenated MNE/FIFF (.fif) file) will be generated inside the current working directory (pwd), inside a specifc directory called:
 
 ```
 out_dir
