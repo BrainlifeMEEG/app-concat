@@ -85,7 +85,7 @@ for i, raw in enumerate(raw_list):
         tags = ", ".join(input_info.get('tags', []))
         datatype_tags = ", ".join(input_info.get('datatype_tags', []))
     
-    input_summary_html += f'<tr style="border-bottom: 1px solid gray;"><td style="padding: 8px; border: 1px solid gray;">{i+1}</td><td style="padding: 8px; border: 1px solid gray;">{filename}</td><td style="padding: 8px; border: 1px solid gray;">{duration:.2f}</td><td style="padding: 8px; border: 1px solid gray;">{raw.n_channels}</td><td style="padding: 8px; border: 1px solid gray;">{raw.info["sfreq"]:.1f}</td><td style="padding: 8px; border: 1px solid gray;">{tags}</td><td style="padding: 8px; border: 1px solid gray;">{datatype_tags}</td></tr>'
+    input_summary_html += f'<tr style="border-bottom: 1px solid gray;"><td style="padding: 8px; border: 1px solid gray;">{i+1}</td><td style="padding: 8px; border: 1px solid gray;">{filename}</td><td style="padding: 8px; border: 1px solid gray;">{duration:.2f}</td><td style="padding: 8px; border: 1px solid gray;">{raw.info["nchan"]}</td><td style="padding: 8px; border: 1px solid gray;">{raw.info["sfreq"]:.1f}</td><td style="padding: 8px; border: 1px solid gray;">{tags}</td><td style="padding: 8px; border: 1px solid gray;">{datatype_tags}</td></tr>'
 
 input_summary_html += '</table>'
 report.add_html(title='Input Files Summary', html=input_summary_html)
