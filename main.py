@@ -92,14 +92,6 @@ report.add_html(title='Input Files Summary', html=input_summary_html)
 
 report.add_raw(raw=raw_final, title='Concatenated Raw Data')
 
-# Add information about concatenation
-concat_info_html = f'<p><b>Concatenated {len(raws)} raw files</b></p>'
-concat_info_html += '<p><b>Source files:</b><br>'
-for i, raw_path in enumerate(raws):
-    concat_info_html += f'{i+1}. {os.path.basename(raw_path)}<br>'
-concat_info_html += '</p>'
-report.add_html(title='Concatenation Details', html=concat_info_html)
-
 # Add channel information to report
 channel_info_html = '<p><b>Channels in concatenated file:</b></p>' + ', '.join(raw_final.ch_names)
 report.add_html(title='Channels', html=channel_info_html)
