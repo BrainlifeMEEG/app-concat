@@ -63,6 +63,20 @@ raw_final = mne.concatenate_raws(raw_list)
 
 # == CREATE REPORT ==
 report = mne.Report(title='Concatenate Raw Files Report')
+
+# Create summary table of input files
+input_summary_html = '<p><b>Summary of Input Raw Files</b></p>'
+input_summary_html += '<table style="border-collapse: collapse; width: 100%;">'
+input_summary_html += '<tr style="border-bottom: 2px solid black;"><th style="text-align: left; padding: 8px; border: 1px solid gray;">File #</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">Filename</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">Duration (s)</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">n_channels</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">sfreq (Hz)</th></tr>'
+
+for i, raw in enumerate(raw_list):
+    duration = raw.n_times / raw.info['sfreq']
+    filename = os.path.basename(raws[i])
+    input_summary_html += f'<tr style="border-bottom: 1px solid gray;"><td style="padding: 8px; border: 1px solid gray;">{i+1}</td><td style="padding: 8px; border: 1px solid gray;">{filename}</td><td style="padding: 8px; border: 1px solid gray;">{duration:.2f}</td><td style="padding: 8px; border: 1px solid gray;">{raw.n_channels}</td><td style="padding: 8px; border: 1px solid gray;">{raw.info["sfreq"]:.1f}</td></tr>'
+
+input_summary_html += '</table>'
+report.add_html(title='Input Files Summary', html=input_summary_html)
+
 report.add_raw(raw=raw_final, title='Concatenated Raw Data')
 
 # Add information about concatenation
