@@ -32,6 +32,7 @@ import mne
 # Import shared utilities
 from brainlife_utils import (
     load_config,
+    get_inputs_names,
     setup_matplotlib_backend,
     ensure_output_dirs,
     create_product_json,
@@ -64,15 +65,27 @@ raw_final = mne.concatenate_raws(raw_list)
 # == CREATE REPORT ==
 report = mne.Report(title='Concatenate Raw Files Report')
 
+# Get input names from config metadata
+inputs_info = get_inputs_names()
+
 # Create summary table of input files
 input_summary_html = '<p><b>Summary of Input Raw Files</b></p>'
 input_summary_html += '<table style="border-collapse: collapse; width: 100%;">'
-input_summary_html += '<tr style="border-bottom: 2px solid black;"><th style="text-align: left; padding: 8px; border: 1px solid gray;">File #</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">Filename</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">Duration (s)</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">n_channels</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">sfreq (Hz)</th></tr>'
+input_summary_html += '<tr style="border-bottom: 2px solid black;"><th style="text-align: left; padding: 8px; border: 1px solid gray;">File #</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">Filename</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">Duration (s)</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">n_channels</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">sfreq (Hz)</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">Tags</th><th style="text-align: left; padding: 8px; border: 1px solid gray;">Datatype Tags</th></tr>'
 
 for i, raw in enumerate(raw_list):
     duration = raw.n_times / raw.info['sfreq']
     filename = os.path.basename(raws[i])
-    input_summary_html += f'<tr style="border-bottom: 1px solid gray;"><td style="padding: 8px; border: 1px solid gray;">{i+1}</td><td style="padding: 8px; border: 1px solid gray;">{filename}</td><td style="padding: 8px; border: 1px solid gray;">{duration:.2f}</td><td style="padding: 8px; border: 1px solid gray;">{raw.n_channels}</td><td style="padding: 8px; border: 1px solid gray;">{raw.info["sfreq"]:.1f}</td></tr>'
+    
+    # Get input identifiers if available
+    tags = ""
+    datatype_tags = ""
+    if i < len(inputs_info):
+        input_info = inputs_info[i]
+        tags = ", ".join(input_info.get('tags', []))
+        datatype_tags = ", ".join(input_info.get('datatype_tags', []))
+    
+    input_summary_html += f'<tr style="border-bottom: 1px solid gray;"><td style="padding: 8px; border: 1px solid gray;">{i+1}</td><td style="padding: 8px; border: 1px solid gray;">{filename}</td><td style="padding: 8px; border: 1px solid gray;">{duration:.2f}</td><td style="padding: 8px; border: 1px solid gray;">{raw.n_channels}</td><td style="padding: 8px; border: 1px solid gray;">{raw.info["sfreq"]:.1f}</td><td style="padding: 8px; border: 1px solid gray;">{tags}</td><td style="padding: 8px; border: 1px solid gray;">{datatype_tags}</td></tr>'
 
 input_summary_html += '</table>'
 report.add_html(title='Input Files Summary', html=input_summary_html)
