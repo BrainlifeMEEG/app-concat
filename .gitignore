@@ -1,0 +1,3 @@
+*.json
+/out_dir/
+/out_report/
