@@ -59,8 +59,6 @@ for i, raw_path in enumerate(raws):
     raw_list.append(raw)
     print(f"Loaded raw file {i+1}/{len(raws)}: {os.path.basename(raw_path)}")
 
-# == CONCATENATE RAWS ==
-raw_final = mne.concatenate_raws(raw_list)
 
 # == CREATE REPORT ==
 report = mne.Report(title='Concatenate Raw Files Report')
@@ -90,6 +88,26 @@ for i, raw in enumerate(raw_list):
 input_summary_html += '</table>'
 report.add_html(title='Input Files Summary', html=input_summary_html)
 
+# == CONCATENATE RAWS ==
+concatenation_success = False
+error_message = None
+
+try:
+    raw_final = mne.concatenate_raws(raw_list)
+    concatenation_success = True
+except Exception as e:
+    error_message = f"Concatenation failed: {type(e).__name__}: {str(e)}"
+    add_info_to_product(product_items, error_message)
+    create_product_json(product_items)
+    
+    print("\n" + "!"*80)
+    print("ERROR: FAILED TO CONCATENATE RAW FILES")
+    print("!"*80)
+    print(f"\nException type: {type(e).__name__}")
+    print(f"Exception message: {str(e)}")
+    print("="*80)
+    sys.exit(1)
+
 report.add_raw(raw=raw_final, title='Concatenated Raw Data')
 
 # Add channel information to report
@@ -101,8 +119,6 @@ raw_final.save(os.path.join('out_dir', 'raw.fif'), overwrite=True)
 report.save(os.path.join('out_report', 'report.html'), overwrite=True)
 
 # == CREATE PRODUCT JSON ==
-product_items = []
-
 # Add structured raw info messages
 add_raw_info_to_product(product_items, raw_final)
 
@@ -112,4 +128,3 @@ add_info_to_product(product_items, concat_msg)
 
 # Create the product.json file
 create_product_json(product_items)
-
