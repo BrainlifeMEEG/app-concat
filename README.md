@@ -48,7 +48,8 @@ The app reads multiple raw MNE data files, loads them with preload enabled, conc
 
 ## Authors
 
-- [Kamilya Salibayeva](https://github.com/KSalibay), Indiana University
+- [Kamilya Salibayeva](https://github.com/KSalibay) (Indiana University)
+- [Maximilien Chaumon](https://github.com/dnacombo), Paris Brain Institute
 
 ## Citations
 
@@ -68,7 +69,7 @@ brainlife.io is publicly funded and for the sustainability of the project we kin
 [![NSF-IIS-1912270](https://img.shields.io/badge/NSF_IIS-1912270-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1912270)
 [![NIH-NIBIB-R01EB030896](https://img.shields.io/badge/NIH_NIBIB-R01EB030896-green.svg)](https://grantome.com/grant/NIH/R01-EB030896-01)
 
-#### MIT Copyright (c) 2021 brainlife.io The University of Texas at Austin and Indiana University
+#### MIT Copyright (c) 2026 brainlife.io The University of Texas at Austin and Indiana University
 ```
 
 ### Sample Datasets

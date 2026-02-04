@@ -15,12 +15,13 @@ Output:
     - product.json: Metadata with concatenated data information
 """
 
-# Copyright (c) 2020 brainlife.io
+# Copyright (c) 2026 brainlife.io
 #
 # This app concatenates multiple MNE raw data files.
 #
-# Author: Kamilya Salibayeva
-# Indiana University
+# Authors:
+# - Kamilya Salibayeva (https://github.com/KSalibay)
+# - Maximilien Chaumon (https://github.com/dnacombo)
 
 import sys
 import os
