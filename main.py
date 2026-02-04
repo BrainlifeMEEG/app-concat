@@ -97,6 +97,9 @@ try:
     raw_final = mne.concatenate_raws(raw_list)
     concatenation_success = True
 except Exception as e:
+    # == CREATE PRODUCT JSON ==
+    product_items = []
+
     error_message = f"Concatenation failed: {type(e).__name__}: {str(e)}"
     add_info_to_product(product_items, error_message)
     create_product_json(product_items)
