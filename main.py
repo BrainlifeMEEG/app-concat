@@ -53,6 +53,23 @@ config = load_config()
 # == LOAD DATA ==
 raws = config['raw']
 
+# Get input names from config metadata
+inputs_info = get_inputs_names()
+
+# Sort by run number so concatenation order is always Run1→Run2→...→RunN
+# regardless of the order Brainlife provides inputs
+def get_run_number(info):
+    for tag in info.get('tags', []):
+        if tag.lower().startswith('run'):
+            try:
+                return int(tag[3:])
+            except ValueError:
+                pass
+    return 0
+
+pairs = sorted(zip(raws, inputs_info), key=lambda x: get_run_number(x[1]))
+raws, inputs_info = zip(*pairs)
+raws, inputs_info = list(raws), list(inputs_info)
 # Load all raw files
 raw_list = []
 for i, raw_path in enumerate(raws):
@@ -66,8 +83,6 @@ raw_final = mne.concatenate_raws(raw_list)
 # == CREATE REPORT ==
 report = mne.Report(title='Concatenate Raw Files Report')
 
-# Get input names from config metadata
-inputs_info = get_inputs_names()
 
 # Create summary table of input files
 input_summary_html = '<p><b>Summary of Input Raw Files</b></p>'
