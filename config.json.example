@@ -1,5 +1,3 @@
 {
-    "_comment": "Configuration for app-concat - Concatenate multiple MNE raw data files",
-    "raw": ["path/to/raw1.fif", "path/to/raw2.fif", "path/to/raw3.fif"],
-    "raw_comment": "Array of paths to MNE raw data files (.fif format) to concatenate. Files should be in the same format with compatible channel configurations."
+    "raw": ["path/to/raw1.fif", "path/to/raw2.fif", "path/to/raw3.fif"]
 }
