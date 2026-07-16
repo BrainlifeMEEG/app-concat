@@ -60,6 +60,21 @@ for i, raw_path in enumerate(raws):
     raw_list.append(raw)
     print(f"Loaded raw file {i+1}/{len(raws)}: {os.path.basename(raw_path)}")
 
+# mne.concatenate_raws() requires identical channel order across raws, but
+# per-run channel order can differ even when every run has the same channel
+# set (e.g. depending on which channels were present/dropped during
+# acquisition). Reorder every raw to match the first one's channel order;
+# fail loudly if the channel sets themselves actually differ.
+ref_ch_names = raw_list[0].ch_names
+for i, raw in enumerate(raw_list[1:], start=2):
+    if set(raw.ch_names) != set(ref_ch_names):
+        raise ValueError(
+            f"Raw file {i}/{len(raw_list)} has a different channel set than "
+            f"file 1: {set(raw.ch_names) ^ set(ref_ch_names)}"
+        )
+    if raw.ch_names != ref_ch_names:
+        raw.reorder_channels(ref_ch_names)
+
 # == CONCATENATE RAWS ==
 raw_final = mne.concatenate_raws(raw_list)
 
